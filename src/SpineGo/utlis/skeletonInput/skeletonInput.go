@@ -9,18 +9,18 @@ import (
 	"os"
 )
 
-type skeletonInput struct {
+type SkeletonInput struct {
 	bufio.Reader
 	Strings strArray.StrArray
 	chars   charArray.CharArray
 }
 
-func (i *skeletonInput) skeletonInput(file *os.File) {
+func (i *SkeletonInput) skeletonInput(file *os.File) {
 	i.Reader = *bufio.NewReader(file)
 }
 
 // Reads a 1-5 byte int.
-func (i *skeletonInput) readInt(optimizePositive bool) (result int) {
+func (i *SkeletonInput) readInt(optimizePositive bool) (result int) {
 	b, err := i.ReadByte()
 	result = int(b) & 0x7F
 	if (b & 0x80) != 0 {
@@ -46,7 +46,15 @@ func (i *skeletonInput) readInt(optimizePositive bool) (result int) {
 	}
 }
 
-func (i *skeletonInput) readFloat() float32 {
+func (i *SkeletonInput) readBool() bool {
+	ch, err := i.ReadByte()
+	if err != nil {
+		panic("EOFException: ReadByte Error")
+	}
+	return ch != 0
+}
+
+func (i *SkeletonInput) readFloat() float32 {
 	buffer := make([]byte, 4)
 	ch1, err := i.ReadByte()
 	ch2, err := i.ReadByte()
@@ -67,7 +75,7 @@ func (i *skeletonInput) readFloat() float32 {
 	return float
 }
 
-func (i *skeletonInput) readStringRef() (string, bool) {
+func (i *SkeletonInput) readStringRef() (string, bool) {
 	index := i.readInt(true)
 	if index == 0 {
 		return "", false
@@ -76,7 +84,7 @@ func (i *skeletonInput) readStringRef() (string, bool) {
 	}
 }
 
-func (i *skeletonInput) readString() (string, bool) {
+func (i *SkeletonInput) readString() (string, bool) {
 	byteCount := i.readInt(true)
 	switch byteCount {
 	case 0:
