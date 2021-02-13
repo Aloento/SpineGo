@@ -1,6 +1,8 @@
 package SpineGo
 
 import (
+	"SpineGo/attachments"
+	"SpineGo/utlis"
 	"os"
 )
 
@@ -20,6 +22,9 @@ const (
 )
 
 type SkeletonBinary struct {
+	tempColor1       utlis.Color
+	tempColor2       utlis.Color
+	attachmentLoader attachments.AttachmentLoader
 }
 
 func ReadSkeletonData(file *os.File) {
