@@ -5,19 +5,22 @@ import (
 )
 
 const (
-	BONE_ROTATE     byte = 0
-	BONE_TRANSLATE  byte = 1
-	BONE_SCALE      byte = 2
-	BONE_SHEAR      byte = 3
-	SLOT_ATTACHMENT byte = 0
-	SLOT_COLOR      byte = 1
-	SLOT_TWO_COLOR  byte = 2
-	PATH_POSITION   byte = 0
-	PATH_SPACING    byte = 1
-	PATH_MIX        byte = 2
-	CURVE_STEPPED   byte = 1
-	CURVE_BEZIER    byte = 2
+	BoneRotate     byte = 0
+	BoneTranslate  byte = 1
+	BoneScale      byte = 2
+	BoneShear      byte = 3
+	SlotAttachment byte = 0
+	SlotColor      byte = 1
+	SlotTwoColor   byte = 2
+	PathPosition   byte = 0
+	PathSpacing    byte = 1
+	PathMix        byte = 2
+	CurveStepped   byte = 1
+	CurveBezier    byte = 2
 )
+
+type SkeletonBinary struct {
+}
 
 func ReadSkeletonData(file *os.File) {
 

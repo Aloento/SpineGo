@@ -1,4 +1,4 @@
-package skeletonInput
+package utlis
 
 import (
 	"SpineGo/utlis/charArray"
