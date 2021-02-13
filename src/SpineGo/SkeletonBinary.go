@@ -4,6 +4,8 @@ import (
 	"SpineGo/utlis/charArray"
 	"SpineGo/utlis/strArray"
 	"bufio"
+	"bytes"
+	"encoding/binary"
 	"os"
 )
 
@@ -42,6 +44,27 @@ func (i *skeletonInput) readInt(optimizePositive bool) (result int) {
 			return int(uint(result)>>1) ^ -(result & 1)
 		}
 	}
+}
+
+func (i *skeletonInput) readFloat() float32 {
+	buffer := make([]byte, 4)
+	ch1, err := i.ReadByte()
+	ch2, err := i.ReadByte()
+	ch3, err := i.ReadByte()
+	ch4, err := i.ReadByte()
+	if err != nil {
+		panic("EOFException: ReadByte Error")
+	}
+	buffer[0] = ch1
+	buffer[1] = ch2
+	buffer[2] = ch3
+	buffer[3] = ch4
+
+	var float float32
+	if binary.Read(bytes.NewReader(buffer), binary.LittleEndian, &float) != nil {
+		println("binary.Read failed:", err)
+	}
+	return float
 }
 
 func (i *skeletonInput) readStringRef() (string, bool) {
