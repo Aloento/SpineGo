@@ -1,24 +1,25 @@
 package SpineGo
 
 import (
+	"SpineGo/utlis/charArray"
+	"SpineGo/utlis/strArray"
 	"bufio"
 	"log"
 	"os"
 )
 
-var byteSlice = make([]byte, 512)
-
 type skeletonInput struct {
 	bufio.Reader
-	Strings []string
-	chars   [32]rune
+	Strings strArray.StrArray
+	chars   charArray.CharArray
 }
 
 func (i *skeletonInput) skeletonInput(file *os.File) {
 	i.Reader = *bufio.NewReader(file)
 }
 
-func (i skeletonInput) readInt(optimizePositive bool) (result int) {
+// Reads a 1-5 byte int.
+func (i *skeletonInput) readInt(optimizePositive bool) (result int) {
 	b, err := i.ReadByte()
 	result = int(b) & 0x7F
 	if (b & 0x80) != 0 {
@@ -45,9 +46,27 @@ func (i skeletonInput) readInt(optimizePositive bool) (result int) {
 	}
 }
 
-func (i skeletonInput) readStringRef() string {
-	return ""
+func (i *skeletonInput) readStringRef() (string, bool) {
+	index := i.readInt(true)
+	if index == 0 {
+		return "", false
+	} else {
+		return i.Strings.Get(index - 1), true
+	}
+}
 
+func (i *skeletonInput) readString() (string, bool) {
+	byteCount := i.readInt(true)
+	switch byteCount {
+	case 0:
+		return "", false
+	case 1:
+		return "", true
+	}
+	byteCount--
+	if i.chars.Len() < byteCount {
+		i.chars = *charArray.Make(0, byteCount)
+	}
 }
 
 func ReadSkeletonData(file *os.File) {
