@@ -1,8 +1,6 @@
 package utlis
 
 import (
-	"SpineGo/utlis/charArray"
-	"SpineGo/utlis/strArray"
 	"bufio"
 	"bytes"
 	"encoding/binary"
@@ -11,8 +9,8 @@ import (
 
 type SkeletonInput struct {
 	bufio.Reader
-	Strings strArray.StrArray
-	chars   charArray.CharArray
+	Strings Array
+	chars   Array
 }
 
 func (i *SkeletonInput) skeletonInput(file *os.File) {
@@ -80,7 +78,7 @@ func (i *SkeletonInput) readStringRef() (string, bool) {
 	if index == 0 {
 		return "", false
 	} else {
-		return i.Strings.Get(index - 1), true
+		return i.Strings.Get(index - 1).(string), true
 	}
 }
 
@@ -94,7 +92,7 @@ func (i *SkeletonInput) readString() (string, bool) {
 	}
 	byteCount--
 	if i.chars.Len() < byteCount {
-		i.chars = *charArray.Make(0, byteCount)
+		i.chars = *Make(0, byteCount)
 	}
 	charCount := 0
 	for index := 0; index < byteCount; {
@@ -119,5 +117,5 @@ func (i *SkeletonInput) readString() (string, bool) {
 			panic("EOFException: ReadByte Error")
 		}
 	}
-	return i.chars.ToString(), true
+	return i.chars.byteToStr(), true
 }

@@ -1,4 +1,4 @@
-package charArray
+package utlis
 
 import (
 	"strconv"
@@ -6,19 +6,19 @@ import (
 	"unicode/utf8"
 )
 
-type CharArray struct {
-	array []rune
+type Array struct {
+	array []interface{}
 	len   int
 	cap   int
 	lock  sync.Mutex
 }
 
-func Make(len, cap int) *CharArray {
-	s := new(CharArray)
+func Make(len, cap int) *Array {
+	s := new(Array)
 	if len > cap {
 		panic("len large than cap")
 	}
-	array := make([]rune, cap, cap)
+	array := make([]interface{}, cap, cap)
 
 	s.array = array
 	s.cap = cap
@@ -26,7 +26,7 @@ func Make(len, cap int) *CharArray {
 	return s
 }
 
-func (a *CharArray) Append(element rune) {
+func (a *Array) Append(element interface{}) {
 	a.lock.Lock()
 	defer a.lock.Unlock()
 
@@ -36,7 +36,7 @@ func (a *CharArray) Append(element rune) {
 		if a.cap == 0 {
 			newCap = 1
 		}
-		newArray := make([]rune, newCap, newCap)
+		newArray := make([]interface{}, newCap, newCap)
 
 		for k, v := range a.array {
 			newArray[k] = v
@@ -48,13 +48,13 @@ func (a *CharArray) Append(element rune) {
 	a.len = a.len + 1
 }
 
-func (a *CharArray) AppendMany(element ...rune) {
+func (a *Array) AppendMany(element ...interface{}) {
 	for _, v := range element {
 		a.Append(v)
 	}
 }
 
-func (a *CharArray) Replace(index int, element rune) {
+func (a *Array) Replace(index int, element interface{}) {
 	a.lock.Lock()
 	defer a.lock.Unlock()
 
@@ -62,26 +62,26 @@ func (a *CharArray) Replace(index int, element rune) {
 	a.array[index] = element
 }
 
-func (a *CharArray) Get(index int) rune {
+func (a *Array) Get(index int) interface{} {
 	if a.len == 0 || index >= a.len {
 		panic("Index over len: Request " + strconv.Itoa(index) + " But only " + strconv.Itoa(a.len))
 	}
 	return a.array[index]
 }
 
-func (a *CharArray) Len() int {
+func (a *Array) Len() int {
 	return a.len
 }
 
-func (a *CharArray) Cap() int {
+func (a *Array) Cap() int {
 	return a.cap
 }
 
-func (a *CharArray) ToString() string {
+func (a *Array) byteToStr() string {
 	var p []byte
 	buffer := make([]byte, 3)
 	for _, r := range a.array {
-		n := utf8.EncodeRune(buffer, r)
+		n := utf8.EncodeRune(buffer, r.(rune))
 		p = append(p, buffer[:n]...)
 	}
 	return string(p)
