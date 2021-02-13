@@ -3,6 +3,7 @@ package charArray
 import (
 	"strconv"
 	"sync"
+	"unicode/utf8"
 )
 
 type CharArray struct {
@@ -53,6 +54,14 @@ func (a *CharArray) AppendMany(element ...rune) {
 	}
 }
 
+func (a *CharArray) Replace(index int, element rune) {
+	a.lock.Lock()
+	defer a.lock.Unlock()
+
+	a.Get(index)
+	a.array[index] = element
+}
+
 func (a *CharArray) Get(index int) rune {
 	if a.len == 0 || index >= a.len {
 		panic("Index over len: Request " + strconv.Itoa(index) + " But only " + strconv.Itoa(a.len))
@@ -66,4 +75,14 @@ func (a *CharArray) Len() int {
 
 func (a *CharArray) Cap() int {
 	return a.cap
+}
+
+func (a *CharArray) ToString() string {
+	var p []byte
+	buffer := make([]byte, 3)
+	for _, r := range a.array {
+		n := utf8.EncodeRune(buffer, r)
+		p = append(p, buffer[:n]...)
+	}
+	return string(p)
 }
