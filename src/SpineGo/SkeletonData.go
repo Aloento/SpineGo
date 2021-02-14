@@ -1,6 +1,7 @@
 package SpineGo
 
-type skeletonData struct {
+type SkeletonData struct {
+	name    string
 	hash    string
 	version string
 	x       float32
@@ -9,7 +10,7 @@ type skeletonData struct {
 	height  float32
 }
 
-type nonessential struct {
+type Nonessential struct {
 	fps        float32
 	imagesPath string
 	audioPath  string

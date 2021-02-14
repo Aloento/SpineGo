@@ -4,6 +4,7 @@ import (
 	"SpineGo/attachments"
 	"SpineGo/utlis"
 	"os"
+	"strings"
 )
 
 const (
@@ -35,9 +36,20 @@ func NewSkeletonBinary(atlas TextureAtlas) *skeletonBinary {
 	b.tempColor2 = *utlis.NewColor()
 	b.linkedMeshes = *utlis.NewArray(0, 0)
 	b.attachmentLoader = *attachments.NewAtlasAttachmentLoader(atlas)
+	b.scale = 1
 	return b
 }
 
-func ReadSkeletonData(file *os.File) *skeletonData {
+func (b *skeletonBinary) readSkeletonData(file *os.File) (skeletonData *SkeletonData) {
+	scale := b.scale
+	skeletonData = new(SkeletonData)
+	skeletonData.name = func() string {
+		name := file.Name()
+		dot := strings.LastIndex(name, ".")
+		if dot == -1 {
+			return name
+		}
+		return name[0:dot]
+	}()
 
 }
