@@ -72,6 +72,7 @@ func (b *skeletonBinary) readSkeletonData(file *os.File) (skeletonData *Skeleton
 	for i := 0; i < n; i++ {
 		o[i] = input.ReadString()
 	}
+
 	n = input.ReadInt(true)
 	o = *skeletonData.bones.SetSize(n)
 	for i := 0; i < n; i++ {
@@ -92,8 +93,15 @@ func (b *skeletonBinary) readSkeletonData(file *os.File) (skeletonData *Skeleton
 		data.transformMode = TransformMode(input.ReadInt(true))
 		data.skinRequired = input.ReadBool()
 		if nonessential {
-
+			data.color.RGBA8888ToColor(uint(input.ReadInt(true)))
 		}
+		o[i] = data
+	}
+
+	n = input.ReadInt(true)
+	o = *skeletonData.slots.SetSize(n)
+	for i := 0; i < n; i++ {
+
 	}
 
 }
