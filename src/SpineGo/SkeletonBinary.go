@@ -2,7 +2,7 @@ package SpineGo
 
 import (
 	"SpineGo/attachments"
-	"SpineGo/utlis"
+	"SpineGo/utils"
 	"os"
 	"strings"
 )
@@ -23,18 +23,18 @@ const (
 )
 
 type skeletonBinary struct {
-	tempColor1       utlis.Color
-	tempColor2       utlis.Color
-	linkedMeshes     utlis.Array
+	tempColor1       utils.Color
+	tempColor2       utils.Color
+	linkedMeshes     utils.Array
 	attachmentLoader attachments.AttachmentLoader
 	scale            float32
 }
 
 func NewSkeletonBinary(atlas TextureAtlas) *skeletonBinary {
 	b := new(skeletonBinary)
-	b.tempColor1 = *utlis.NewColor()
-	b.tempColor2 = *utlis.NewColor()
-	b.linkedMeshes = *utlis.NewArray(0, 0)
+	b.tempColor1 = *utils.NewColor()
+	b.tempColor2 = *utils.NewColor()
+	b.linkedMeshes = *utils.NewArray(0, 0)
 	b.attachmentLoader = *attachments.NewAtlasAttachmentLoader(atlas)
 	b.scale = 1
 	return b
