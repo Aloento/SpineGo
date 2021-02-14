@@ -33,8 +33,8 @@ type skeletonBinary struct {
 
 func NewSkeletonBinary(atlas TextureAtlas) *skeletonBinary {
 	b := new(skeletonBinary)
-	b.tempColor1 = *utils.NewColor()
-	b.tempColor2 = *utils.NewColor()
+	b.tempColor1 = utils.Color{}
+	b.tempColor2 = utils.Color{}
 	b.linkedMeshes = *utils.NewArray(0, 0)
 	b.attachmentLoader = *attachments.NewAtlasAttachmentLoader(atlas)
 	b.scale = 1
@@ -43,7 +43,7 @@ func NewSkeletonBinary(atlas TextureAtlas) *skeletonBinary {
 
 func (b *skeletonBinary) readSkeletonData(file *os.File) (skeletonData *SkeletonData) {
 	scale := b.scale
-	skeletonData = new(SkeletonData)
+	skeletonData = NewSkeletonData()
 	skeletonData.name = func() string {
 		name := file.Name()
 		dot := strings.LastIndex(name, ".")
@@ -70,10 +70,17 @@ func (b *skeletonBinary) readSkeletonData(file *os.File) (skeletonData *Skeleton
 	n := input.ReadInt(true)
 	input.Strings = *utils.NewArray(0, n)
 	o := input.Strings.SetSize(n)
-	for i := 0; i < n; i++{
+	for i := 0; i < n; i++ {
 		o[i] = input.ReadString()
 	}
-	o = skeletonData.
-
+	n = input.ReadInt(true)
+	o = skeletonData.bones.SetSize(n)
+	for i := 0; i < n; i++ {
+		name := input.ReadString()
+		var parent BoneData
+		if i != 0 {
+			skeletonData.bones.Get(input.ReadInt(true))
+		}
+	}
 
 }

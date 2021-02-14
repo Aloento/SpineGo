@@ -30,3 +30,16 @@ type nonessential struct {
 	imagesPath string
 	audioPath  string
 }
+
+func NewSkeletonData() *SkeletonData {
+	d := new(SkeletonData)
+	d.bones = *utils.NewArray(0, 0)
+	d.slots = *utils.NewArray(0, 0)
+	d.skins = *utils.NewArray(0, 0)
+	d.events = *utils.NewArray(0, 0)
+	d.animations = *utils.NewArray(0, 0)
+	d.ikConstraints = *utils.NewArray(0, 0)
+	d.transformConstraints = *utils.NewArray(0, 0)
+	d.pathConstraints = *utils.NewArray(0, 0)
+	return d
+}
