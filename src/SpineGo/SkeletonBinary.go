@@ -77,10 +77,12 @@ func (b *skeletonBinary) readSkeletonData(file *os.File) (skeletonData *Skeleton
 	o = skeletonData.bones.SetSize(n)
 	for i := 0; i < n; i++ {
 		name := input.ReadString()
-		var parent BoneData
+		var parent *BoneData
 		if i != 0 {
-			skeletonData.bones.Get(input.ReadInt(true))
+			parent = skeletonData.bones.Get(input.ReadInt(true)).(*BoneData)
 		}
+		data := NewBoneData(i, name, parent)
+
 	}
 
 }

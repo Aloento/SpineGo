@@ -87,7 +87,7 @@ func (a *Array) Get(index int) interface{} {
 	if a.len == 0 || index >= a.len {
 		panic("Index over len: Request " + strconv.Itoa(index) + " But only " + strconv.Itoa(int(a.len)))
 	}
-	return a.array[index]
+	return &a.array[index]
 }
 
 func (a *Array) Len() int {

@@ -4,18 +4,18 @@ import (
 	"SpineGo/utils"
 )
 
-type boneData struct {
+type BoneData struct {
 	index                                                  int
 	name                                                   string
-	parent                                                 *boneData
+	parent                                                 *BoneData
 	color                                                  utils.Color
 	length, x, y, rotation, scaleX, scaleY, shearX, shearY float32
 	transformMode                                          TransformMode
 	skinRequired                                           bool
 }
 
-func NewBoneData(index int, name string, parent *boneData) *boneData {
-	d := new(boneData)
+func NewBoneData(index int, name string, parent *BoneData) *BoneData {
+	d := new(BoneData)
 	d.color = utils.Color{
 		R: 0.61,
 		G: 0.61,
