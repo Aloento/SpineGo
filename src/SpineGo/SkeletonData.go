@@ -8,6 +8,7 @@ type SkeletonData struct {
 	y       float32
 	width   float32
 	height  float32
+	Nonessential
 }
 
 type Nonessential struct {

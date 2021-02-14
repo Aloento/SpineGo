@@ -52,4 +52,17 @@ func (b *skeletonBinary) readSkeletonData(file *os.File) (skeletonData *Skeleton
 		return name[0:dot]
 	}()
 
+	input := utils.NewSkeletonInput(file)
+	skeletonData.hash = input.ReadString()
+	skeletonData.version = input.ReadString()
+	skeletonData.x = input.ReadFloat()
+	skeletonData.y = input.ReadFloat()
+	skeletonData.width = input.ReadFloat()
+	skeletonData.height = input.ReadFloat()
+	if input.ReadBool() {
+		skeletonData.fps = input.ReadFloat()
+		skeletonData.imagesPath = input.ReadString()
+		skeletonData.audioPath = input.ReadString()
+	}
+
 }

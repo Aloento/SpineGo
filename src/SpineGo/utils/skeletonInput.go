@@ -20,7 +20,7 @@ func NewSkeletonInput(file *os.File) *skeletonInput {
 }
 
 // Reads a 1-5 byte int.
-func (i *skeletonInput) readInt(optimizePositive bool) (result int) {
+func (i *skeletonInput) ReadInt(optimizePositive bool) (result int) {
 	b, err := i.ReadByte()
 	result = int(b) & 0x7F
 	if (b & 0x80) != 0 {
@@ -46,7 +46,7 @@ func (i *skeletonInput) readInt(optimizePositive bool) (result int) {
 	}
 }
 
-func (i *skeletonInput) readBool() bool {
+func (i *skeletonInput) ReadBool() bool {
 	ch, err := i.ReadByte()
 	if err != nil {
 		panic("EOFException: ReadByte Error")
@@ -54,7 +54,7 @@ func (i *skeletonInput) readBool() bool {
 	return ch != 0
 }
 
-func (i *skeletonInput) readFloat() float32 {
+func (i *skeletonInput) ReadFloat() float32 {
 	buffer := make([]byte, 4)
 	ch1, err := i.ReadByte()
 	ch2, err := i.ReadByte()
@@ -75,8 +75,8 @@ func (i *skeletonInput) readFloat() float32 {
 	return float
 }
 
-func (i *skeletonInput) readStringRef() (string, bool) {
-	index := i.readInt(true)
+func (i *skeletonInput) ReadStringRef() (string, bool) {
+	index := i.ReadInt(true)
 	if index == 0 {
 		return "", false
 	} else {
@@ -84,13 +84,11 @@ func (i *skeletonInput) readStringRef() (string, bool) {
 	}
 }
 
-func (i *skeletonInput) readString() (string, bool) {
-	byteCount := i.readInt(true)
+func (i *skeletonInput) ReadString() string {
+	byteCount := i.ReadInt(true)
 	switch byteCount {
-	case 0:
-		return "", false
-	case 1:
-		return "", true
+	case 0, 1:
+		return ""
 	}
 	byteCount--
 	if i.chars.Len() < byteCount {
@@ -119,5 +117,5 @@ func (i *skeletonInput) readString() (string, bool) {
 			panic("EOFException: ReadByte Error")
 		}
 	}
-	return i.chars.byteToStr(), true
+	return i.chars.byteToStr()
 }
