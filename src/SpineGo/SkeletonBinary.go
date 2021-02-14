@@ -67,8 +67,13 @@ func (b *skeletonBinary) readSkeletonData(file *os.File) (skeletonData *Skeleton
 		skeletonData.audioPath = input.ReadString()
 	}
 
-	var n int
-	input.Strings = *utils.NewArray(0, input.ReadInt(true))
-	o := input.Strings
+	n := input.ReadInt(true)
+	input.Strings = *utils.NewArray(0, n)
+	o := input.Strings.SetSize(n)
+	for i := 0; i < n; i++{
+		o[i] = input.ReadString()
+	}
+	o = skeletonData.
+
 
 }
