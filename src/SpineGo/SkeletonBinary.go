@@ -3,7 +3,6 @@ package SpineGo
 import (
 	"SpineGo/attachments"
 	"SpineGo/utils"
-	"go/types"
 	"os"
 	"strings"
 )
@@ -82,7 +81,19 @@ func (b *skeletonBinary) readSkeletonData(file *os.File) (skeletonData *Skeleton
 			parent = skeletonData.bones.Get(input.ReadInt(true)).(*BoneData)
 		}
 		data := NewBoneData(i, name, parent)
+		data.rotation = input.ReadFloat()
+		data.x = input.ReadFloat() * scale
+		data.y = input.ReadFloat() * scale
+		data.scaleX = input.ReadFloat()
+		data.scaleY = input.ReadFloat()
+		data.shearX = input.ReadFloat()
+		data.shearY = input.ReadFloat()
+		data.length = input.ReadFloat() * scale
+		data.transformMode = TransformMode(input.ReadInt(true))
+		data.skinRequired = input.ReadBool()
+		if nonessential {
 
+		}
 	}
 
 }
