@@ -13,7 +13,7 @@ type Array struct {
 	lock  sync.Mutex
 }
 
-func Make(len, cap int) *Array {
+func NewArray(len, cap int) *Array {
 	s := new(Array)
 	if len > cap {
 		panic("len large than cap")

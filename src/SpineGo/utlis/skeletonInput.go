@@ -92,7 +92,7 @@ func (i *SkeletonInput) readString() (string, bool) {
 	}
 	byteCount--
 	if i.chars.Len() < byteCount {
-		i.chars = *Make(0, byteCount)
+		i.chars = *NewArray(0, byteCount)
 	}
 	charCount := 0
 	for index := 0; index < byteCount; {

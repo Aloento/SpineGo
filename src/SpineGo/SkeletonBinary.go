@@ -21,12 +21,14 @@ const (
 	CurveBezier    byte = 2
 )
 
-type SkeletonBinary struct {
-	tempColor1       utlis.Color
-	tempColor2       utlis.Color
+var (
+	tempColor1       = *utlis.NewColor()
+	tempColor2       = *utlis.NewColor()
 	attachmentLoader attachments.AttachmentLoader
-}
+	linkedMeshes             = *utlis.NewArray(0, 0)
+	scale            float32 = 1
+)
 
-func ReadSkeletonData(file *os.File) {
+func ReadSkeletonData(file *os.File) SkeletonData {
 
 }
