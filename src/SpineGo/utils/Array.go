@@ -26,10 +26,10 @@ func NewArray(len, cap int) *Array {
 	return s
 }
 
-func ArrayCopy(array []interface{}, newCap int) []interface{} {
+func ArrayCopy(array []interface{}, newCap int) *[]interface{} {
 	newArray := make([]interface{}, newCap, newCap)
 	copy(newArray, array)
-	return newArray
+	return &newArray
 }
 
 func (a *Array) Append(element interface{}) {
@@ -43,7 +43,7 @@ func (a *Array) Append(element interface{}) {
 			newCap = 1
 		}
 
-		a.array = ArrayCopy(a.array, newCap)
+		a.array = *ArrayCopy(a.array, newCap)
 		a.cap = newCap
 	}
 	a.array[a.len] = element
@@ -64,13 +64,13 @@ func (a *Array) Replace(index int, element interface{}) {
 	a.array[index] = element
 }
 
-func (a *Array) SetSize(newSize int) []interface{} {
+func (a *Array) SetSize(newSize int) *[]interface{} {
 	a.Truncate(newSize)
 	if newSize > a.Cap() {
-		a.array = ArrayCopy(a.array, newSize)
+		a.array = *ArrayCopy(a.array, newSize)
 		a.cap = newSize
 	}
-	return a.array
+	return &a.array
 }
 
 func (a *Array) Truncate(newSize int) {
