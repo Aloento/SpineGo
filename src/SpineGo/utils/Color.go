@@ -1,4 +1,4 @@
-package utlis
+package utils
 
 type Color struct {
 	r float32

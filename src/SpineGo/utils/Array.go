@@ -1,4 +1,4 @@
-package utlis
+package utils
 
 import (
 	"strconv"
@@ -24,6 +24,10 @@ func NewArray(len, cap int) *Array {
 	s.cap = cap
 	s.len = 0
 	return s
+}
+
+func NewArray() *Array {
+
 }
 
 func (a *Array) Append(element interface{}) {
