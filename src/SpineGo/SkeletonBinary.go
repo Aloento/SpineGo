@@ -3,6 +3,7 @@ package SpineGo
 import (
 	"SpineGo/attachments"
 	"SpineGo/utils"
+	"go/types"
 	"os"
 	"strings"
 )
@@ -59,10 +60,15 @@ func (b *skeletonBinary) readSkeletonData(file *os.File) (skeletonData *Skeleton
 	skeletonData.y = input.ReadFloat()
 	skeletonData.width = input.ReadFloat()
 	skeletonData.height = input.ReadFloat()
-	if input.ReadBool() {
+	nonessential := input.ReadBool()
+	if nonessential {
 		skeletonData.fps = input.ReadFloat()
 		skeletonData.imagesPath = input.ReadString()
 		skeletonData.audioPath = input.ReadString()
 	}
+
+	var n int
+	input.Strings = *utils.NewArray(0, input.ReadInt(true))
+	o := input.Strings
 
 }
