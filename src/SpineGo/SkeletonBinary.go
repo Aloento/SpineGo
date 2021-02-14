@@ -93,7 +93,7 @@ func (b *skeletonBinary) readSkeletonData(file *os.File) (skeletonData *Skeleton
 		data.transformMode = TransformMode(input.ReadInt(true))
 		data.skinRequired = input.ReadBool()
 		if nonessential {
-			data.color.RGBA8888ToColor(uint(input.ReadInt(true)))
+			data.color.RGBA8888ToColor(uint(input.ReadNativeInt()))
 		}
 		o[i] = data
 	}
@@ -101,7 +101,19 @@ func (b *skeletonBinary) readSkeletonData(file *os.File) (skeletonData *Skeleton
 	n = input.ReadInt(true)
 	o = *skeletonData.slots.SetSize(n)
 	for i := 0; i < n; i++ {
-
+		slotName := input.ReadString()
+		boneData := skeletonData.bones.Get(input.ReadInt(true)).(*BoneData)
+		data := NewSlotData(i, slotName, boneData)
+		data.color.RGBA8888ToColor(uint(input.ReadNativeInt()))
+		darkColor := input.ReadNativeInt()
+		if darkColor != -1 {
+			data.darkColor = *new(utils.Color)
+			data.darkColor.RGBA8888ToColor(uint(darkColor))
+		}
+		data.attachmentName = input.ReadStringRef()
+		data.blendMode = utils.BlendMode(input.ReadInt(true))
+		o[i] = data
 	}
 
+	return
 }

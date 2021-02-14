@@ -19,6 +19,17 @@ func NewSkeletonInput(file *os.File) *skeletonInput {
 	return i
 }
 
+func (i *skeletonInput) ReadNativeInt() int {
+	ch1, err := i.ReadByte()
+	ch2, err := i.ReadByte()
+	ch3, err := i.ReadByte()
+	ch4, err := i.ReadByte()
+	if err != nil {
+		panic("EOFException: ReadByte Error")
+	}
+	return (int(ch1) << 24) + (int(ch2) << 16) + (int(ch3) << 8) + (int(ch4) << 0)
+}
+
 // Reads a 1-5 byte int.
 func (i *skeletonInput) ReadInt(optimizePositive bool) (result int) {
 	b, err := i.ReadByte()
@@ -75,12 +86,12 @@ func (i *skeletonInput) ReadFloat() float32 {
 	return float
 }
 
-func (i *skeletonInput) ReadStringRef() (string, bool) {
+func (i *skeletonInput) ReadStringRef() string {
 	index := i.ReadInt(true)
 	if index == 0 {
-		return "", false
+		return ""
 	} else {
-		return i.Strings.Get(index - 1).(string), true
+		return i.Strings.Get(index - 1).(string)
 	}
 }
 
