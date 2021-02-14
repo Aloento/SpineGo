@@ -21,14 +21,23 @@ const (
 	CurveBezier    byte = 2
 )
 
-var (
-	tempColor1       = *utlis.NewColor()
-	tempColor2       = *utlis.NewColor()
+type skeletonBinary struct {
+	tempColor1       utlis.Color
+	tempColor2       utlis.Color
+	linkedMeshes     utlis.Array
 	attachmentLoader attachments.AttachmentLoader
-	linkedMeshes             = *utlis.NewArray(0, 0)
-	scale            float32 = 1
-)
+	scale            float32
+}
 
-func ReadSkeletonData(file *os.File) SkeletonData {
+func NewSkeletonBinary(atlas TextureAtlas) *skeletonBinary {
+	b := new(skeletonBinary)
+	b.tempColor1 = *utlis.NewColor()
+	b.tempColor2 = *utlis.NewColor()
+	b.linkedMeshes = *utlis.NewArray(0, 0)
+	b.attachmentLoader = *attachments.NewAtlasAttachmentLoader(atlas)
+	return b
+}
+
+func ReadSkeletonData(file *os.File) *skeletonData {
 
 }

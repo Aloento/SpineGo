@@ -2,7 +2,7 @@ package utlis
 
 import . "SpineGo/attachments"
 
-type LinkedMesh struct {
+type linkedMesh struct {
 	parent        string
 	skin          string
 	slotIndex     int
@@ -10,7 +10,8 @@ type LinkedMesh struct {
 	inheritDeform bool
 }
 
-func (m *LinkedMesh) LinkedMesh(mesh MeshAttachment, skin string, slotIndex int, parent string, inheritDeform bool) {
+func NewLinkedMesh(mesh MeshAttachment, skin string, slotIndex int, parent string, inheritDeform bool) {
+	m := new(linkedMesh)
 	m.mesh = mesh
 	m.skin = skin
 	m.slotIndex = slotIndex
